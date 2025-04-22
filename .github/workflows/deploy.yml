@@ -1,0 +1,29 @@
+name: Run EDA Notebook
+
+on:
+  push:
+    branches:
+      - main  # or 'master' depending on your default branch
+  workflow_dispatch:  # optional, lets you run it manually from GitHub UI
+
+jobs:
+  run-notebook:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pandas numpy matplotlib seaborn openpyxl jupyter
+
+      - name: Run Notebook
+        run: |
+          jupyter nbconvert --to notebook --execute "Raw data TO  clean data conversion using python EDA.ipynb" --output executed_notebook.ipynb
